@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Главная страница</h1>
+  <h2>Последние выполненные заявки</h2>
+  <ul>
+    {% for application in completed_applications %}
+      <li>
+        <p><strong>{{ application.title }}</strong> ({{ application.category }}) - {{ application.timestamp }}</p>
+        {% if application.photo %}
+          <img src="{{ application.photo.url }}" alt="Фото заявки" style="max-width: 200px;">
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>Нет выполненных заявок.</li>
+    {% endfor %}
+  </ul>
+  <p>Количество заявок в статусе "Принято в работу": {{ in_progress_count }}</p>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Подтверждение удаления категории</h1>
+  <p>Вы уверены, что хотите удалить категорию "{{ category.name }}" и все связанные с ней заявки?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+    <a href="{% url 'polls:admin_category_list' %}">Отмена</a>
+  </form>
+{% endblock %}

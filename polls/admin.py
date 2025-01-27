@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Question, Choice
+from .models import Category, Application # Импортируйте модель Category и Application
 
 
 class ChoiceInLine(admin.TabularInline):
@@ -12,3 +13,6 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Question, QuestionAdmin)
+
+admin.site.register(Category)
+admin.site.register(Application)

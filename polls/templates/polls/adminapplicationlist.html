@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Список всех заявок (Админ)</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Временная метка</th>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Категория</th>
+        <th>Статус</th>
+        <th>Пользователь</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for application in applications %}
+        <tr>
+          <td>{{ application.timestamp }}</td>
+          <td>{{ application.title }}</td>
+          <td>{{ application.description }}</td>
+          <td>{{ application.category }}</td>
+          <td>{{ application.get_status_display }}</td>
+          <td>{{ application.user.username }}</td>
+          <td>
+            {% if application.status == 'new' %}
+              <a href="{% url 'polls:change_application_status' application.id %}">Изменить статус</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="7">Нет заявок.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

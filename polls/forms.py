@@ -5,6 +5,8 @@ from django import forms
 from .models import ImageUpload
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from .models import Application, Category
+
 
 
 class RegistrationForm(UserCreationForm):
@@ -55,6 +57,11 @@ class ImageUploadForm(forms.ModelForm):
 
 
 class ApplicationForm(forms.Form):
+    STATUS_CHOICES = [
+        ('new', 'Новая'),
+        ('in_progress', 'Принято в работу'),
+        ('completed', 'Выполнена'),
+    ]
     CATEGORY_CHOICES = [  # Определите список категорий как кортеж кортежей
         ('3d_design', '3D-дизайн'),
         # Используйте значения, подходящие для хранения в базе данных (без пробелов, строчные буквы)
@@ -72,9 +79,9 @@ class ApplicationForm(forms.Form):
         label='Описание',
         widget=forms.Textarea(attrs={'required': 'required'})
     )
-    category = forms.ChoiceField(  # <--- ИСПОЛЬЗУЙТЕ ChoiceField ВМЕСТО ModelChoiceField
+    category = forms.ModelChoiceField(
         label='Категория',
-        choices=CATEGORY_CHOICES,  # <--- Укажите список категорий choices
+        queryset=Category.objects.all(),
         widget=forms.Select(attrs={'required': 'required'})
     )
     photo = forms.ImageField(
@@ -95,3 +102,28 @@ class ApplicationForm(forms.Form):
                 raise ValidationError(f"Поддерживаемые форматы изображений: {', '.join(allowed_formats)}.")
         return photo
 
+class ApplicationDeleteForm(forms.Form):
+    confirmation = forms.BooleanField(
+        required=True,
+        widget=forms.HiddenInput(),
+        initial=True # Чтобы форма всегда была валидна для POST запроса
+    )
+
+class CompleteApplicationForm(forms.ModelForm):
+    design = forms.ImageField(required=True, label="Загрузите дизайн")
+
+    class Meta:
+        model = Application
+        fields = ['design']
+
+class InProgressApplicationForm(forms.ModelForm):
+    comment = forms.CharField(required=True, widget=forms.Textarea, label="Комментарий администратора")
+
+    class Meta:
+        model = Application
+        fields = ['comment']
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']

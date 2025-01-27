@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Изменение статуса заявки "{{ application.title }}"</h1>
+  <p>Текущий статус: {{ application.get_status_display }}</p>
+
+  {% if application.status == 'new' %}
+    <h2>Изменить статус на "Выполнена"</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="status_change" value="completed">
+      {{ complete_form.as_p }}
+      <button type="submit">Изменить статус на "Выполнена"</button>
+    </form>
+
+    <h2>Изменить статус на "Принято в работу"</h2>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="status_change" value="in_progress">
+      {{ inprogress_form.as_p }}
+      <button type="submit">Изменить статус на "Принято в работу"</button>
+    </form>
+  {% else %}
+    <p>Статус заявки нельзя изменить.</p>
+  {% endif %}
+
+  <a href="{% url 'polls:admin_application_list' %}">Вернуться к списку заявок</a>
+{% endblock %}

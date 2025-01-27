@@ -1,0 +1,7 @@
+<h1>Список заявок</h1>
+<ul>
+    {% for application in applications %}
+        <li>{{ application.title }} - {{ application.description }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'polls:create_application' %}">Создать новую заявку</a>
