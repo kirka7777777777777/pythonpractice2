@@ -1,5 +1,7 @@
-from django.urls import path
 from . import views
+from django.urls import path
+from django.contrib.auth import views as auth_views
+
 
 app_name = 'polls'
 
@@ -13,5 +15,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
     path('add_category/', views.add_category, name='add_category'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='base'), name='logout'),
 ]
 

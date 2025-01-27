@@ -11,7 +11,6 @@
 <p>Email: {{ user.email }}</p>
 <p>Имя: {{ user.first_name }}</p>
 <p>фамииля: {{ user.last_name }}</p>
-<button>Выйти</button>
 
 
 {% if user_profile %}
@@ -19,9 +18,11 @@
 {{ user_profile.phone_number }}</p>
     <a href="{% url 'polls:add_category' %}">Добавить каьегорию</a>
     <button >Добавить организацию</button>
-    <button "{% url 'polls:add_category' %}">Добавить человека</button>
+    <button>"{% url 'polls:add_category' %}">Добавить человека</button>
 {% endif %}
 
-<a href="{% url 'polls:logout' %}"Выйти</a>
+{% if user.is_authenticated %}
+    <a href="{% url 'polls:logout' %}">Выйти из профиля</a>
+{% endif %}
 </body>
 </html>
