@@ -13,16 +13,9 @@
 <p>фамииля: {{ user.last_name }}</p>
 
 
-{% if user_profile %}
-<p>Номер телефона:
-{{ user_profile.phone_number }}</p>
-    <a href="{% url 'polls:add_category' %}">Добавить каьегорию</a>
-    <button >Добавить организацию</button>
-    <button>"{% url 'polls:add_category' %}">Добавить человека</button>
-{% endif %}
-
 {% if user.is_authenticated %}
-    <a href="{% url 'polls:logout' %}">Выйти из профиля</a>
+<a href="{% url 'polls:logout' %}">Выйти из профиля</a>
+<a href="{% url 'polls:create_application' %}">Создать заявку</a>
 {% endif %}
 </body>
 </html>

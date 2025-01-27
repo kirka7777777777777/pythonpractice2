@@ -3,12 +3,18 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
-from .forms import RegistrationForm, UserLoginForm, AddCategoryForm
-from .models import Question, Choice, UserProfile, CategoryForm
+from .forms import RegistrationForm, UserLoginForm
+from .models import Question, Choice, UserProfile
 from django.urls import reverse
 from django.views import generic
 from django.shortcuts import render, redirect
 from .forms import ImageUploadForm
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .forms import ApplicationForm
+from .models import Application # Импортируйте модель Application
+
 
 
 class IndexView(generic.ListView):
@@ -94,19 +100,27 @@ def profile(request):
 
 
 @login_required
-def add_category(request):
+def create_application(request):
     if request.method == 'POST':
-        form = AddCategoryForm(request.POST)
+        form = ApplicationForm(request.POST, request.FILES) # request.FILES для обработки загруженных файлов
         if form.is_valid():
-            category = form.save()  # Сохраняем категорию
-            request.user.userprofile.categories.add(category)  # Добавляем категорию к профилю пользователя
-            messages.success(request, f'Категория "{category.name}" успешно добавлена.')
-            return redirect('polls:profile')
+            # Создаем экземпляр модели, но не сохраняем в базу сразу
+            application = Application(
+                title=form.cleaned_data['title'],
+                description=form.cleaned_data['description'],
+                category=form.cleaned_data['category'],
+                photo=form.cleaned_data['photo'],
+                user=request.user # Связываем заявку с текущим пользователем
+            )
+            application.save() # Теперь сохраняем в базу, timestamp и статус 'Новая' установятся автоматически
+
+            messages.success(request, 'Заявка успешно создана и отправлена.')
+            return redirect('polls:profile') # Или на другую страницу успеха
         else:
-            messages.error(request, 'Ошибка при добавлении категории.')
+            messages.error(request, 'Ошибка при создании заявки. Пожалуйста, проверьте форму.')
     else:
-        form = AddCategoryForm()
-    return render(request, 'polls/add_category.html', {'form': form})
+        form = ApplicationForm()
+    return render(request, 'polls/create_application.html', {'form': form})
 
 
 

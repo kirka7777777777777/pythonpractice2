@@ -1,0 +1,129 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Создание заявки на разработку дизайна интерьера помещения</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Создание заявки</h1>-->
+<!--    <form method="post">-->
+<!--        {% csrf_token %}-->
+<!--        {{ form.as_p }}-->
+<!--        <button type="submit">Добавить</button>-->
+<!--    </form>-->
+
+<!--    {% if messages %}-->
+<!--    <ul class="messages">-->
+<!--        {% for message in messages %}-->
+<!--        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+<!--    {% endif %}-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание заявки на разработку дизайна интерьера помещения</title>
+    <style>
+        .errorlist {
+            color: red;
+        }
+        .messages {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+        .messages li {
+            list-style: none;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        label {
+            display: block; /* Метка на новой строке */
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        textarea,
+        select,
+        input[type="file"] {
+            width: 100%; /* Занимают всю ширину контейнера */
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* Чтобы padding и border не увеличивали общую ширину */
+        }
+        button[type="submit"] {
+            padding: 10px 15px;
+            background-color: #4CAF50; /* Зеленый цвет кнопки */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049; /* Более темный зеленый при наведении */
+        }
+    </style>
+</head>
+<body>
+<h1>Создание заявки</h1>
+    <form method="post" enctype="multipart/form-data"> {# Добавьте enctype для загрузки файлов #}
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <ul class="errorlist">
+                <li><b>Пожалуйста, исправьте ошибки ниже:</b></li>
+            </ul>
+        {% endif %}
+
+        <p>
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <ul class="errorlist">{{ form.title.errors }}</ul>
+            {% endif %}
+        </p>
+
+        <p>
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+                <ul class="errorlist">{{ form.description.errors }}</ul>
+            {% endif %}
+        </p>
+
+        <p>
+            <label for="{{ form.category.id_for_label }}">{{ form.category.label }}</label>
+            {{ form.category }}
+            {% if form.category.errors %}
+                <ul class="errorlist">{{ form.category.errors }}</ul>
+            {% endif %}
+        </p>
+
+        <p>
+            <label for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label>
+            {{ form.photo }}
+            {% if form.photo.errors %}
+                <ul class="errorlist">{{ form.photo.errors }}</ul>
+            {% endif %}
+        </p>
+
+        <button type="submit">Добавить заявку</button>
+    </form>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message.message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

@@ -1,13 +1,16 @@
-from .models import UserProfile
+from .models import UserProfile  # Оставьте другие импорты, которые вам нужны
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import CategoryForm
 from django import forms
 from .models import ImageUpload
+from django.core.exceptions import ValidationError
+from django.conf import settings
+
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    phone_number = forms.CharField(max_length=20, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    phone_number = forms.CharField(max_length=20, required=True,
+                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -43,21 +46,52 @@ class UserProfileViewForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
-class AddCategoryForm(forms.ModelForm):
-    class Meta:
-        model = CategoryForm
-        fields = ['name', 'description']
-
-
-
-# class CategoryForm(forms.ModelForm):
-#     class Meta:
-#         model = Category  # Указываем модель, с которой будет работать форма
-#         fields = ['name', 'description']  # Указываем поля, которые хотим использовать в форме
-
-
 
 class ImageUploadForm(forms.ModelForm):
     class Meta:
         model = ImageUpload
         fields = ['title', 'image']
+
+
+
+class ApplicationForm(forms.Form):
+    CATEGORY_CHOICES = [  # Определите список категорий как кортеж кортежей
+        ('3d_design', '3D-дизайн'),
+        # Используйте значения, подходящие для хранения в базе данных (без пробелов, строчные буквы)
+        ('2d_design', '2D-дизайн'),
+        ('sketch', 'Эскиз'),
+        ('other', 'Другое'),  # Добавьте свои категории
+    ]
+
+    title = forms.CharField(
+        label='Название',
+        max_length=255,
+        widget=forms.TextInput(attrs={'required': 'required'})
+    )
+    description = forms.CharField(
+        label='Описание',
+        widget=forms.Textarea(attrs={'required': 'required'})
+    )
+    category = forms.ChoiceField(  # <--- ИСПОЛЬЗУЙТЕ ChoiceField ВМЕСТО ModelChoiceField
+        label='Категория',
+        choices=CATEGORY_CHOICES,  # <--- Укажите список категорий choices
+        widget=forms.Select(attrs={'required': 'required'})
+    )
+    photo = forms.ImageField(
+        label='Фото помещения или план',
+        widget=forms.FileInput(attrs={'required': 'required'})
+    )
+
+    def clean_photo(self):
+        photo = self.cleaned_data['photo']
+        if photo:
+            max_size = 2 * 1024 * 1024  # 2MB в байтах
+            if photo.size > max_size:
+                raise ValidationError(f"Размер изображения не должен превышать {max_size / (1024 * 1024)} Мб.")
+
+            allowed_formats = ['jpg', 'jpeg', 'png', 'bmp']
+            file_extension = photo.name.split('.')[-1].lower()
+            if file_extension not in allowed_formats:
+                raise ValidationError(f"Поддерживаемые форматы изображений: {', '.join(allowed_formats)}.")
+        return photo
+

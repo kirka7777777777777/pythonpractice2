@@ -14,7 +14,7 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
-    path('add_category/', views.add_category, name='add_category'),
+    path('application/create/', views.create_application, name='create_application'),
     path('logout/', auth_views.LogoutView.as_view(next_page='base'), name='logout'),
 ]
 
