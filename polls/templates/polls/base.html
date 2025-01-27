@@ -1,9 +1,13 @@
 <link rel="stylesheet" href="../../static/style.css">
 <header>
+    <h2>DESIGN.PRO</h2>
     <ul>
+        <div class="nav">
+            <li><a href="{% url 'admin:index' %}">Вход для администратора</a></li>
         <li><a href="{% url 'polls:login' %}">Войти</a></li>
         <li><a href="{% url 'polls:register' %}">Зарегистрироваться</a></li>
         <li><a href="{% url 'polls:profile' %}">Профиль</a></li>
+        </div>
     </ul>
 </header>
 <main>

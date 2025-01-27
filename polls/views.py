@@ -119,3 +119,6 @@ def upload_image(request):
     else:
         form = ImageUploadForm()
     return render(request, 'upload_image.html', {'form': form})
+
+def home(request):
+    return render(request, 'catalog/base.html')

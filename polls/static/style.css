@@ -6,6 +6,8 @@ header {
     background: #C2BEAE;
     text-decoration: none;
     justify-content: space-evenly;
+    padding:10px;
+
 }
 main {
 
@@ -16,9 +18,8 @@ main {
     font-family: Arial, sans-serif;
     margin: 0px;
     padding: 0px;
-    color:  #0B63F6;
-
-
+    color:  #474238;
+    list-style-type: none
 }
 button {
     background-color: black;
@@ -40,3 +41,13 @@ h2{
     justify-content: center;
     padding: 20px;
 }
+.nav {
+    display:flex;
+}
+.nav li {
+    margin-right: 15px;
+    padding:10px;
+}
+header h2 {
+display:flex;
+justify-content:flex-start;}
