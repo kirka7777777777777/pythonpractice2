@@ -1,0 +1,42 @@
+header {
+    display: flex;
+    align-items: center;
+    color:  #0B63F6;
+    padding: 20px 80px;
+    background: #C2BEAE;
+    text-decoration: none;
+    justify-content: space-evenly;
+}
+main {
+
+    background:  #EEECDE;
+}
+
+*{
+    font-family: Arial, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    color:  #0B63F6;
+
+
+}
+button {
+    background-color: black;
+    color: white;
+}
+.img {
+    height: 500px;
+    width: 700px;
+    margin: 10px;
+}
+.images {
+    display:flex;
+    justify-content:center;
+    flex-direction:row;
+    flex-wrap: wrap;
+}
+h2{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}

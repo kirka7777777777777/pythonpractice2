@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../static/style.css">
+</head>
+<body>
+<h1>Ваш профиль</h1>
+<p>Имя пользователя: {{ user.username }}</p>
+<p>Email: {{ user.email }}</p>
+<p>Имя: {{ user.first_name }}</p>
+<p>фамииля: {{ user.last_name }}</p>
+
+
+{% if user_profile %}
+<p>Номер телефона:
+{{ user_profile.phone_number }}</p>
+    <a href="{% url 'polls:add_category' %}">Добавить каьегорию</a>
+    <button >Добавить организацию</button>
+    <button "{% url 'polls:add_category' %}">Добавить человека</button>
+{% endif %}
+
+<a href="{% url 'polls:logout' %}"Выйти</a>
+</body>
+</html>

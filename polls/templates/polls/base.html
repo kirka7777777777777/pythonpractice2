@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="../../static/style.css">
+<header>
+    <ul>
+        <li><a href="{% url 'polls:login' %}">Войти</a></li>
+        <li><a href="{% url 'polls:register' %}">Зарегистрироваться</a></li>
+        <li><a href="{% url 'polls:profile' %}">Профиль</a></li>
+    </ul>
+</header>
+<main>
+    <h2>Наши проекты:</h2>
+    <div class="images">
+           {% load static %}
+        <img class="img" src="{% static 'images/7a44fa3a752bcfe792d1d1a08b779ab1.jpg' %}" alt="">
+        <img class="img" src="{% static 'images/3334906.jpg'%}" alt="">
+        <img class="img" src="{% static 'images/4664683.jpg'%}" alt="">
+        <img class="img" src="{% static 'images/rasteniya-interier-4.jpg'%}" alt="">
+        <img class="img" src="{% static 'images/Sovremennyj_1.jpg'%}" alt="">
+        <img class="img" src="{% static 'images/zhyloi-interer.jpg'%}" alt="">
+    </div>
+</main>
+
